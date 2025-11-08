@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Samantha!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#letter">Love Letter</a></li>
+            <li><a href="#gallery">Memories</a></li>
+            <li><a href="#age">Age Counter</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Happy Birthday</h1>
+            <div class="name">Samantha</div>
+            <p>To the most incredible person & brilliant in my life. Hope you have an amazing day, with everything you could of asked for.</p>
+            <a href="#letter" class="cta-button">Read My Message</a>
+        </div>
+    </section>
+
+    <!-- Love Letter Section -->
+    <section id="letter" class="fade-in">
+        <h2 class="section-title">A Letter for You</h2>
+        <div class="love-letter">
+            <p>My Dearest Samantha,</p>
+            <p>It's been another wonderful year that I was able to spend with you. We have gone on so many adventures and explored so many different places along the way. Another year and another beginning. Enjoy your birthday and the gifts that awaits. Happy Birthday, to the one that deserves it all. </p>
+            <p class="signature">Forever yours, William</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="fade-in">
+        <h2 class="section-title">Our Beautiful Memories</h2>
+        <div class="gallery-container">
+            <div class="gallery">
+                <div class="gallery-item"> <img  src="images/image1.png"> </div>
+                <div class="gallery-item"> <img  src="images/image2.png"> </div>
+                <div class="gallery-item"> <img  src="images/image3.png"> </div>
+                <div class="gallery-item"> <img  src="images/image4.png"> </div>
+                <div class="gallery-item"> <img  src="images/image5.png"> </div>
+            </div>
+            <button class="gallery-nav prev" onclick="moveGallery(-1)">&#8249;</button>
+            <button class="gallery-nav next" onclick="moveGallery(1)">&#8250;</button>
+        </div>
+        <div class="gallery-dots" id="galleryDots"></div>
+    </section>
+
+    <!-- Age Counter Section -->
+    <section id="age" class="fade-in">
+        <div class="age-counter">
+            <h2 class="section-title" style="color: white;">You Are Now</h2>
+            <div class="age-display">
+                <div class="age-number" id="ageYears">20</div>
+                <span class="age-label">Years Young</span>
+            </div>
+            <div class="age-details">
+                <div class="age-detail-item">
+                    <span class="age-detail-number" id="ageMonths">0</span>
+                    <span class="age-detail-label">Months</span>
+                </div>
+                <div class="age-detail-item">
+                    <span class="age-detail-number" id="ageDays">0</span>
+                    <span class="age-detail-label">Days</span>
+                </div>
+                <div class="age-detail-item">
+                    <span class="age-detail-number" id="ageHours">0</span>
+                    <span class="age-detail-label">Hours</span>
+                </div>
+                <div class="age-detail-item">
+                    <span class="age-detail-number" id="ageMinutes">0</span>
+                    <span class="age-detail-label">Minutes</span>
+                </div>
+                <div class="age-detail-item">
+                    <span class="age-detail-number" id="ageSeconds">0</span>
+                    <span class="age-detail-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 | Made By William Pearce</p>
+
+    </footer>
+
+    <script>
+        // Confetti on load
+        window.addEventListener('load', () => {
+            createConfetti();
+            createSparkles();
+        });
+
+        function createConfetti() {
+            const colors = ['#FFB6C1', '#FFD700', '#FFF0F5', '#FFD4E5'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        function createSparkles() {
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                hero.appendChild(sparkle);
+            }
+        }
+
+        // Gallery functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.gallery-item');
+        const dotsContainer = document.getElementById('galleryDots');
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        function moveGallery(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            updateGallery();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateGallery();
+        }
+
+        function updateGallery() {
+            const gallery = document.querySelector('.gallery');
+            gallery.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Auto-advance gallery
+        setInterval(() => moveGallery(1), 5000);
+
+        // Age Counter - Birthday: November 15, 2005
+        function updateAgeCounter() {
+            const birthDate = new Date('2005-11-15T00:00:00');
+            const now = new Date();
+            
+            // Calculate total time difference
+            const totalMs = now - birthDate;
+            
+            // Calculate years
+            let years = now.getFullYear() - birthDate.getFullYear();
+            const monthDiff = now.getMonth() - birthDate.getMonth();
+            const dayDiff = now.getDate() - birthDate.getDate();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                years--;
+            }
+            
+            // Calculate remaining months
+            let months = monthDiff;
+            if (months < 0) {
+                months += 12;
+            }
+            if (dayDiff < 0) {
+                months--;
+                if (months < 0) months = 11;
+            }
+            
+            // Calculate total days, hours, minutes, seconds
+            const totalDays = Math.floor(totalMs / (1000 * 60 * 60 * 24));
+            const totalHours = Math.floor(totalMs / (1000 * 60 * 60));
+            const totalMinutes = Math.floor(totalMs / (1000 * 60));
+            const totalSeconds = Math.floor(totalMs / 1000);
+            
+            // Update display
+            document.getElementById('ageYears').textContent = years;
+            document.getElementById('ageMonths').textContent = months;
+            document.getElementById('ageDays').textContent = totalDays.toLocaleString();
+            document.getElementById('ageHours').textContent = totalHours.toLocaleString();
+            document.getElementById('ageMinutes').textContent = totalMinutes.toLocaleString();
+            document.getElementById('ageSeconds').textContent = totalSeconds.toLocaleString();
+        }
+
+        updateAgeCounter();
+        setInterval(updateAgeCounter, 1000); // Update every second
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
